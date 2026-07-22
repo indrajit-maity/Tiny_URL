@@ -1,0 +1,49 @@
+Spring Boot 4 — Modular Auto-Configuration (Short Note)
+
+Before Spring Boot 4, one big jar (spring-boot-autoconfigure) had the auto-config logic for everything
+ — JPA, JDBC, Flyway, Kafka, etc. Just adding a library's dependency was enough for Spring Boot to auto-detect and wire it up.
+
+Spring Boot 4 split that big jar into small, per-technology modules. Now, adding a library alone isn't enough
+— you also need to add Spring Boot's own auto-configuration module for that specific technology, or it won't get wired in.
+
+This is exactly why Flyway wasn't running: flyway-core was present, but the Spring Boot module that activates it wasn't.
+
+
+Step-by-Step Setup
+
+1. Add all three dependencies to pom.xml
+
+xml
+<!-- Flyway engine -->
+<dependency>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-core</artifactId>
+</dependency>
+
+<!-- MySQL support for Flyway -->
+<dependency>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-mysql</artifactId>
+</dependency>
+
+<!-- Spring Boot autoconfiguration glue (required in Boot 4+) -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-flyway</artifactId>
+</dependency>
+
+
+
+
+The 3 Dependencies
+Dependency	Role
+flyway-core	The Flyway engine — runs migrations
+flyway-mysql	MySQL-specific support for Flyway
+spring-boot-flyway	Spring Boot's auto-config glue — wires Flyway into your app automatically
+Setup Steps
+Add all 3 dependencies to pom.xml
+Reload Maven project
+Keep spring.flyway.enabled=true and spring.flyway.locations=classpath:db/migration in application.properties
+Drop any old table not tracked by Flyway (DROP TABLE IF EXISTS USERS;)
+Run the app → check logs for Flyway banner + "Successfully applied migration"
+Verify: SHOW TABLES; → should see your table and flyway_schema_history
