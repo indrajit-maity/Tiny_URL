@@ -1,5 +1,6 @@
 package com.URI.URL_Shortner.Dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ThreatFeedResponse {
-    private List<String> maliciousUrls;
-    private  String generatedAt;
+        @JsonProperty("dateadded")
+        public String dateadded;
+        @JsonProperty("url")
+        public String url;
 }
