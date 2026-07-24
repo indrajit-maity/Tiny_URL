@@ -24,23 +24,25 @@ public class BlocklistService {
     private final BlocklistCacheService blocklistCacheService;
 
 
-    public boolean isBlocked(AddBlocklistRequest addBlocklistRequest){
+    public boolean isBlocked(String domain){
         log.debug("isBlocked()");
         System.out.println("isBlocked....");
-        if(addBlocklistRequest.getDomain()==null || addBlocklistRequest.getDomain().isBlank()){
+        if(domain==null || domain.isBlank()){
             return false;
         }
-        Boolean cached=blocklistCacheService.isBlockedCached(addBlocklistRequest.getDomain());
+        Boolean cached=blocklistCacheService.isBlockedCached(domain);
         if(cached!=null){
+            System.out.println("Hit only redis...");
             return cached;
         }
-        boolean blocked=blockListRepository.existsByDomain(addBlocklistRequest.getDomain());
-        blocklistCacheService.cacheResult(addBlocklistRequest.getDomain(),blocked);
+        boolean blocked=blockListRepository.existsByDomain(domain);
+        blocklistCacheService.cacheResult(domain,blocked);
+        System.out.println("Hit database...");
         return blocked;
     }
 
     public AddBlockListResponce addDomain(AddBlocklistRequest addBlocklistRequest){
-        System.out.println("indra_service");
+        log.info("addDomain()");
         if(blockListRepository.existsByDomain(addBlocklistRequest.getDomain())){
             throw new DomainAlreadyExistsException("Domain already exists");
         }

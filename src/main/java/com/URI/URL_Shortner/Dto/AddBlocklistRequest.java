@@ -5,6 +5,7 @@ import com.URI.URL_Shortner.Entity.BlockList.BlocklistSource;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.context.annotation.Bean;
 
 import java.util.HashSet;
 import java.util.Set;

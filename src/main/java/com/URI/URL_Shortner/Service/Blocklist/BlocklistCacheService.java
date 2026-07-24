@@ -16,6 +16,7 @@ public class BlocklistCacheService {
 
 
     public Boolean isBlockedCached(String domain){
+        System.out.println("redis work...");
         String value=stringRedisTemplate.opsForValue().get(CACHEPREFIX+domain);
         if(value==null){
             return  null;

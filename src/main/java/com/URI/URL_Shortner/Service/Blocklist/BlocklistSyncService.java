@@ -14,6 +14,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,18 +48,24 @@ public class BlocklistSyncService {
                     null,
                     new ParameterizedTypeReference<Map<String, List<ThreatFeedResponse>>>() {});
             Map<String,List<ThreatFeedResponse>> map=responseEntity.getBody();
-            List<String> domains=map.values()
-                    .stream()
-                    .flatMap(List::stream)
-                    .map(ThreatFeedResponse::getUrl)
-                    .limit(10)
-                    .toList();
-
-//            for (List<ThreatFeedResponse> list : data.values()) {
-//                for (ThreatFeedResponse threat : list) {
-//                    urls.add(threat.getUrl());
-//                }
-//            }
+//            List<String> domains=map.values()
+//                    .stream()
+//                    .flatMap(List::stream)
+//                    .map(ThreatFeedResponse::getUrl)
+//                    .limit(10)
+//                    .toList();
+    List<String> domains=new ArrayList<>();
+//            outer:
+            for (List<ThreatFeedResponse> list : map.values()) {
+                for (ThreatFeedResponse threat : list) {
+                    URI uri = URI.create(threat.getUrl());
+                    String host = uri.getHost();
+                    domains.add(host);
+//                    if(domains.size()==30){
+//                        break outer;
+//                    }
+                }
+            }
 
             if(domains.isEmpty()){return List.of();}
             System.out.println("Fetched malicious domains at: ");
