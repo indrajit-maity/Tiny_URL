@@ -1,6 +1,7 @@
 package com.URI.URL_Shortner.Configuration;
 
 
+import io.swagger.v3.oas.models.OpenAPI;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,5 +18,10 @@ public class MapperConfig {
     @Bean
     public RestTemplate restTemplate(){
         return  new RestTemplate();
+    }
+
+    @Bean
+    public OpenAPI  openAPI(){
+        return new OpenAPI();
     }
 }

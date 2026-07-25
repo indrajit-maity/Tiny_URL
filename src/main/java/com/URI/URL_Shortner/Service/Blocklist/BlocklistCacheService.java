@@ -1,6 +1,7 @@
 package com.URI.URL_Shortner.Service.Blocklist;
 
 
+import com.URI.URL_Shortner.Exception.DomainNotAllowedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;

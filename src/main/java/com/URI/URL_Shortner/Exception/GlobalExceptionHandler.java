@@ -21,4 +21,15 @@ public class GlobalExceptionHandler {
                 .build();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(resoponse);
     }
+
+
+    @ExceptionHandler(DomainNotAllowedException.class)
+    public ResponseEntity<ErrorResoponse> handleIllegalArgumentException(Exception ex){
+        ErrorResoponse resoponse=ErrorResoponse.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timestamp(LocalDateTime.now().toLocalDate())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resoponse);
+    }
 }
