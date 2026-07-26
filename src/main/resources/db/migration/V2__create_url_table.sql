@@ -6,9 +6,5 @@ CREATE TABLE url (
         click_count INT NOT NULL DEFAULT 0,
         created_at DATE,
         expiry_date DATE,
-        is_active BOOLEAN NOT NULL DEFAULT TRUE,
-        user_id BIGINT,
-        CONSTRAINT fk_url_user
-        FOREIGN KEY (user_id)
-        REFERENCES users(id)
+        is_active BOOLEAN NOT NULL DEFAULT TRUE
 );

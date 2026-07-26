@@ -52,24 +52,31 @@ public class BlocklistService {
         String domain=addBlocklistRequest.getDomain();
         URI uri=URI.create(domain);
         String host=uri.getHost();
+        BlockListEntity blockListEntity=new BlockListEntity();
         if(blockListRepository.existsByDomain(host)){
-            throw new DomainAlreadyExistsException("Domain already exists");
+            if(addBlocklistRequest.getBlocklistSource().equals(BlocklistSource.MANUAL)){
+                log.info("Domain Already exists.");
+                throw new DomainAlreadyExistsException("Domain already exists");
+            }
+            log.info("Skipping existing domain: {}", host);
         }
-        System.out.println(host);
-        BlockListEntity blockListEntity=blockListRepository.save(BlockListEntity.builder()
-                        .domain(host)
-                        .reason(addBlocklistRequest.getReason())
-                        .addAt(LocalDate.now())
-                        .source(addBlocklistRequest.getBlocklistSource() != null ? addBlocklistRequest.getBlocklistSource() : BlocklistSource.MANUAL)
-                .build());
-        blocklistCacheService.evict(addBlocklistRequest.getDomain());
+        else{
+             blockListEntity=blockListRepository.save(BlockListEntity.builder()
+                    .domain(host)
+                    .reason(addBlocklistRequest.getReason())
+                    .addAt(LocalDate.now())
+                    .source(addBlocklistRequest.getBlocklistSource() != null ? addBlocklistRequest.getBlocklistSource() : BlocklistSource.MANUAL)
+                    .build());
+            blocklistCacheService.evict(addBlocklistRequest.getDomain());
+        }
         return modelMapper.map(blockListEntity, AddBlockListResponce.class);
     }
 
     @Transactional
     public BlockListEntity removedomain( DeleteDomainDto deleteDomainDto) {
         if(!blockListRepository.existsByDomain(deleteDomainDto.getDomain())){
-            throw new IllegalArgumentException("Domain doesn't exist"+deleteDomainDto.getDomain());
+            log.error("Domain doesn't exist {}", deleteDomainDto.getDomain());
+            throw new IllegalArgumentException("Domain doesn't exist "+deleteDomainDto.getDomain());
         }
         BlockListEntity blockListEntity=blockListRepository
                 .findByDomain(deleteDomainDto.getDomain()).orElseThrow(()

@@ -1,6 +1,5 @@
 package com.URI.URL_Shortner.Exception;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,4 +31,16 @@ public class GlobalExceptionHandler {
                 .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resoponse);
     }
+
+
+    @ExceptionHandler(AliasAlreadyTakenException.class)
+    public ResponseEntity<ErrorResoponse> handleException(Exception ex){
+        ErrorResoponse resoponse=ErrorResoponse.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.CONFLICT.value())
+                .timestamp(LocalDateTime.now().toLocalDate())
+                .build();
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(resoponse);
+    }
+
 }

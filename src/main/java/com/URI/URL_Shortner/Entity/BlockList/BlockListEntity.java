@@ -17,19 +17,19 @@ public class BlockListEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", unique = true)
+    @Column(name = "id", unique = true)
     private long id;
 
-    @Column(name = "DOMAIN",unique = true,length = 255)
+    @Column(name = "domain",length = 255)
     private String domain;
-    @Column(name = "REASON",length = 255)
+    @Column(name = "reason",length = 255)
     private  String reason;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,length = 20)
     private  BlocklistSource source;
 
-    @Column(name = "ADDED_AT",updatable = false,nullable = false)
+    @Column(name = "added_at",updatable = false,nullable = false)
     private LocalDate addAt;
 
 }

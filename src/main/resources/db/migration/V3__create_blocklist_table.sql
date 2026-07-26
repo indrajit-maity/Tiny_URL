@@ -1,6 +1,6 @@
 CREATE TABLE blocklist (
    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-   domain VARCHAR(255) NOT NULL UNIQUE,
+   domain VARCHAR(255) NOT NULL,
    reason VARCHAR(255),
    source VARCHAR(20) NOT NULL,
    added_at DATE NOT NULL

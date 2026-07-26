@@ -10,16 +10,16 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//@Table(name = "USERS")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "id")
     private long id;
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "user_name", nullable = false, unique = true)
     private String username;
-    @Column(name = "Email", nullable = false,unique = true)
+    @Column(name = "email", nullable = false,unique = true)
     private String email;
-    @Column(name = "MobileNo", nullable = false, unique = true)
+    @Column(name = "mobile_no", nullable = false, unique = true)
     private String phoneNumber;
 }

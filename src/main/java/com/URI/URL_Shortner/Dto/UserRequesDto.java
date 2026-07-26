@@ -26,7 +26,5 @@ public class UserRequesDto {
     @Pattern(regexp = "^[a-zA-Z0-9]{4,10}$", message = "Short code must be 4-10 characters long and can only contain letters, numbers, underscores, and hyphens")
     private  String shortCode;
 
-    private  String shortUrl;
-
     private LocalDate expiryDate;
 }

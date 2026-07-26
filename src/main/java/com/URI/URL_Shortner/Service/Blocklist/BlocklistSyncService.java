@@ -34,6 +34,9 @@ public class BlocklistSyncService {
         System.out.println("Syncing from external threat feed...");
         List<String> maliciousDomains=fetchFromExternalFeed();
         for(String Domain:maliciousDomains){
+            System.out.println(Domain);
+        }
+        for(String Domain:maliciousDomains){
             System.out.println("Adding domain to blocklist: "+Domain);
             blocklistService.addDomain(new AddBlocklistRequest(Domain,"Synced from external threat feed", BlocklistSource.THIRD_PARTY));
         }
@@ -48,26 +51,18 @@ public class BlocklistSyncService {
                     null,
                     new ParameterizedTypeReference<Map<String, List<ThreatFeedResponse>>>() {});
             Map<String,List<ThreatFeedResponse>> map=responseEntity.getBody();
-//            List<String> domains=map.values()
-//                    .stream()
-//                    .flatMap(List::stream)
-//                    .map(ThreatFeedResponse::getUrl)
-//                    .limit(10)
-//                    .toList();
-    List<String> domains=new ArrayList<>();
-//            outer:
-            for (List<ThreatFeedResponse> list : map.values()) {
-                for (ThreatFeedResponse threat : list) {
-                    URI uri = URI.create(threat.getUrl());
-                    String host = uri.getHost();
-                    domains.add(host);
-//                    if(domains.size()==30){
-//                        break outer;
-//                    }
-                }
-            }
+            List<String> domains=map.values()
+                    .stream()
+                    .flatMap(List::stream)
+                    .map(ThreatFeedResponse::getUrl)
+                    .toList();
+//            for(String Domain:domains){
+//                System.out.println(Domain);
+//            }
 
-            if(domains.isEmpty()){return List.of();}
+            if(domains.isEmpty()){
+                return List.of();
+            }
             System.out.println("Fetched malicious domains at: ");
             return domains;
         } catch (RestClientException e) {

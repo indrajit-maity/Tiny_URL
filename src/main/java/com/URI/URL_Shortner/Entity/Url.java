@@ -39,8 +39,4 @@ public class Url {
 
     @Column(name = "is_active")
     private  boolean isActive;
-
-    @ManyToOne
-    @JoinColumn(name = "USER_ID")
-    private User user;
 }
