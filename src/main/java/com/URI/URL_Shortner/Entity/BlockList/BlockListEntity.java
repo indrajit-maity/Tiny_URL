@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -20,10 +22,11 @@ public class BlockListEntity {
     @Column(name = "id", unique = true)
     private long id;
 
-    @Column(name = "domain",length = 255)
+    @Column(name = "domain",length = 255,nullable = false)
     private String domain;
     @Column(name = "reason",length = 255)
     private  String reason;
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,length = 20)
@@ -31,5 +34,5 @@ public class BlockListEntity {
 
     @Column(name = "added_at",updatable = false,nullable = false)
     private LocalDate addAt;
-
+    
 }

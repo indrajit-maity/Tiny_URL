@@ -18,7 +18,7 @@ import java.util.Set;
 public class AddBlocklistRequest {
 
     @NotBlank(message = "Domain cannot be blank")
-    private String Domain;
+    private String domain;
     @NotBlank(message = "Reason cannot be null")
     private String reason;
     private BlocklistSource blocklistSource;

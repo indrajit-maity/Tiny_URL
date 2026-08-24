@@ -4,11 +4,14 @@ import com.URI.URL_Shortner.Service.Blocklist.BlocklistService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class NotBlocklistedValidator implements ConstraintValidator<NotBlocklisted, String> {
@@ -19,6 +22,11 @@ public class NotBlocklistedValidator implements ConstraintValidator<NotBlocklist
     public  boolean isValid(String url, ConstraintValidatorContext context) {
         if(url==null){
             return true;
+        }
+       String protocol=CheckProtocol(url);
+        if(!protocol.equals("https") && !protocol.equals("http")){
+            throw new IllegalArgumentException("Invalid protocol");
+
         }
         String host=extractHost(url);
         return  !blocklistService.isBlocked(host);
@@ -33,5 +41,16 @@ public class NotBlocklistedValidator implements ConstraintValidator<NotBlocklist
         catch(IllegalArgumentException e){
             return "";
         }
+    }
+
+    private String CheckProtocol(String url){
+       try{
+           URI uri=URI.create(url);
+           String protocol=uri.getScheme();
+           return protocol;
+       }
+       catch (IllegalArgumentException e){
+           return "";
+       }
     }
 }

@@ -16,11 +16,11 @@ public class UrlServiceTest {
     @Autowired
     private UrlServiceimpl urlServiceimpl;
 
-//    @Test
-//    public void testUrlServiceTest(){
-//        UserRequesDto userRequesDto=new UserRequesDto("https://chatgpt.com/c/6a649907-fa30-83ee-aa8f-c795b67858ef",null, LocalDate.parse("2026-12-31"));
+    @Test
+    public void testUrlServiceTest(){
+        UserRequesDto userRequesDto=new UserRequesDto("https://chatgpt.com/c/6a649907-fa30-83ee-aa8f-c795b67858ef",null, LocalDate.parse("2026-12-31"));
 //        String code=urlServiceimpl.AutogenerateShortCode(userRequesDto);
 //        System.out.println(code);
-//    }
+    }
 
 }

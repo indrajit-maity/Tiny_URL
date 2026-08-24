@@ -31,19 +31,17 @@ public class BlocklistService {
 
     public boolean isBlocked(String domain){
         log.debug("isBlocked()");
-        System.out.println("isBlocked....");
         if(domain==null || domain.isBlank()){
             return false;
         }
         Boolean cached=blocklistCacheService.isBlockedCached(domain);
         if(cached!=null){
-            System.out.println("Hit only redis...");
-
+            log.info("Hit Only redis....");
             return cached;
         }
         boolean blocked=blockListRepository.existsByDomain(domain);
         blocklistCacheService.cacheResult(domain,blocked);
-        System.out.println("Hit database...");
+        log.info("Hit only Database....");
         return blocked;
     }
 
