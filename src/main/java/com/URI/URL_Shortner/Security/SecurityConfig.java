@@ -27,7 +27,9 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(exceptionHandlingConfigurer->exceptionHandlingConfigurer.accessDeniedHandler(((request, response, accessDeniedException) -> {
+                .exceptionHandling(exceptionHandlingConfigurer->
+                        exceptionHandlingConfigurer.accessDeniedHandler(((request, response, accessDeniedException) ->
+                        {
                     handlerExceptionResolver.resolveException(request,response,null,accessDeniedException);
                 })));
         return httpSecurity.build();

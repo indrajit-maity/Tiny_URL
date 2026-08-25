@@ -7,6 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum PermissionType {
     MALWARE_UPDATE("malware:check"),
-    USER_REMOVE("user remove");
+    USER_REMOVE("user:remove");
     private  final String permission;
 }
