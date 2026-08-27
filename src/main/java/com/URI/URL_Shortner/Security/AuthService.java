@@ -39,7 +39,7 @@ public class AuthService {
                     User.builder()
                             .username(signupRequest.getUsername())
                             .email(signupRequest.getEmail())
-                            .phoneNumber("8116767596")
+                            .phoneNumber("..............")
                             .password(passwordEncoder.encode(signupRequest.getPassword()))
                             .providerId(null)
                             .authproviderType(AuthproviderType.EMAIL)
