@@ -18,13 +18,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    private  final Authutill authutill;
+    private final Authutill authutill;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
@@ -39,11 +41,11 @@ public class AuthService {
                     User.builder()
                             .username(signupRequest.getUsername())
                             .email(signupRequest.getEmail())
-                            .phoneNumber("..............")
+                            .phoneNumber(signupRequest.getPhoneNumber())
                             .password(passwordEncoder.encode(signupRequest.getPassword()))
                             .providerId(null)
                             .authproviderType(AuthproviderType.EMAIL)
-                            .roles(null)
+                            .roles(Set.of(signupRequest.getRoles().toArray(new RoleType[0])))
                             .build()
             );
             log.info("User signup successful");
