@@ -10,9 +10,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
 @Getter
@@ -47,10 +46,39 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private AuthproviderType authproviderType;
 
+    @Builder.Default
+    @Column(name = "account_non_locked", nullable = false)
+    private boolean accountNonLocked=true;
+
+    @Builder.Default
+    @Column(name = "account_non_expired", nullable = false)
+    private boolean accountNonExpired=true;
+
+    @Builder.Default
+    @Column(name = "credentials_non_expired", nullable = false)
+    private boolean credentialsNonExpired=true;
+
+    @Column(name = "failed_attempts", nullable = false)
+    private int failedAttempts=0;
+
+    @Column(name = "last_password_reset_date")
+    private LocalDateTime lastPasswordResetDate;
+
+    @Column(name = "created_date", nullable = false)
+    private LocalDateTime createdDate;
+
+    @Column(name = "updated_date")
+    private LocalDateTime updatedDate;
+
+    @Column(name = "locked_at")
+    private LocalDateTime lockedAt;
+
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
     Set<RoleType> roles=new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<PasswordResetToken> resetTokens=new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
