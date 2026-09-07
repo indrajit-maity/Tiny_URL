@@ -70,7 +70,7 @@ public class UrlServiceimpl implements UrlSevice {
                 .build();
         Url saveUrl=urlRepository.save(url);
         long CounterValue= saveUrl.getId();
-        System.out.println(CounterValue);
+//        System.out.println(CounterValue);
         long finalNumber=CounterValue+urlShortenerConfig.Id_Offset;
         String shortCode= Base62encode.encode(finalNumber);
         saveUrl.setShortCode(shortCode);

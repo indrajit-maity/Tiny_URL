@@ -19,7 +19,7 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "users",indexes = @Index(name = "idx_provider_id_provider_type",columnList = "provider,auth_provider_type"))
+@Table(name = "users",indexes = @Index(name = "idx_provider_id_provider_type",columnList = "provider_id,auth_provider_type"))
 public class User implements UserDetails {
 
     @Id
@@ -72,6 +72,9 @@ public class User implements UserDetails {
 
     @Column(name = "locked_at")
     private LocalDateTime lockedAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Url> urls=new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)

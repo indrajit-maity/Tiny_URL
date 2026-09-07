@@ -27,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Set;
 
 @Service
@@ -41,7 +42,7 @@ public class AuthService {
 
 
     private final int MAX_FAILED_ATTEMPTS = 5;
-    private final int LOCK_TIME_DURATION = 15 * 60 * 1000;
+    private final int LOCK_TIME_DURATION = 15;
 
     public SignupResponse signup(SignupRequest signupRequest) {
         User user=userRepository.findByEmail(signupRequest.getEmail()).orElse(null);
@@ -74,9 +75,13 @@ public class AuthService {
             User checkuser=userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(()->new UserNotFoundException("User not found with email: "+loginRequest.getEmail()));
 
             if(!checkuser.isAccountNonLocked()) {
+                if(checkuser.getLockedAt()!=null && java.time.Duration.between(checkuser.getLockedAt(),LocalDateTime.now()).toMinutes()>=LOCK_TIME_DURATION){
+                    resetAccountLock(checkuser);
+                    userRepository.save(checkuser);
+                }
                 log.warn("login attempt on locked account.Username: {}, Email: {}", loginRequest.getUsername(), loginRequest.getEmail());
                 long lockTimeRemaining=checkuser.getLockedAt()!=null? java.time.Duration.between(checkuser.getLockedAt(),LocalDateTime.now()).toMinutes():15;
-                throw new AccountLockedException("Account is Locked.Please try again after "+lockTimeRemaining+" minutes");
+                throw new AccountLockedException("Account is Locked.Please try again after "+(LOCK_TIME_DURATION-lockTimeRemaining)+" minutes");
             }
             Authentication authentication=authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword())
@@ -108,6 +113,7 @@ public class AuthService {
         User user=userRepository.findByEmail(email).orElseThrow(()->new UserNotFoundException("User not found with email: "+email));
         user.setAccountNonLocked(true);
         user.setFailedAttempts(0);
+        resetAccountLock(user);
         userRepository.save(user);
     }
 
@@ -124,8 +130,15 @@ public class AuthService {
         user.setFailedAttempts(currentAttempts);
         if(currentAttempts>=MAX_FAILED_ATTEMPTS){
             user.setAccountNonLocked(false);
+            user.setLockedAt(LocalDateTime.now());
             log.info("Account locked for email:{} due to {} failed Attempts.",email,currentAttempts);
         }
         userRepository.save(user);
+    }
+
+    private  void resetAccountLock(User user){
+        user.setAccountNonLocked(true);
+        user.setFailedAttempts(0);
+        user.setLockedAt(null);
     }
 }
