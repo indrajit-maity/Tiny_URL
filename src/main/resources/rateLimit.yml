@@ -1,0 +1,11 @@
+app:
+  rate-limit:
+    anonymous-capacity: 10
+    anonymous-refill-tokens: 10
+    anonymous-refill-minutes: 1
+    user-capacity: 60
+    user-refill-tokens: 60
+    user-refill-minutes: 1
+    api-key-capacity: 300
+    api-key-refill-tokens: 300
+    api-key-refill-minutes: 1
