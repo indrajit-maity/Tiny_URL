@@ -1,0 +1,87 @@
+name: URL Shortener CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_DATABASE: urlshortener
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+      redis:
+        image: redis:8
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DB_URL: "jdbc:mysql://localhost:3306/urlshortener?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      JWT_SECRET: ci-only-test-secret-key-at-least-32-characters-long-1234567890
+      API_KEY: ci-dummy-api-key
+      MAIL_USERNAME: ci-dummy@example.com
+      MAIL_PASSWORD: ci-dummy-password
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Build and run tests
+        run: mvn -B verify
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: target/surefire-reports/
+
+      - name: Upload application JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: url-shortener-jar
+          path: target/*.jar
+          if-no-files-found: error
+
+  docker-build:
+    # Only runs if tests pass, and only on pushes to main
+    needs: build-and-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t url-shortener:${{ github.sha }} .
