@@ -23,8 +23,8 @@ public class UserRequesDto {
     @NotBlocklisted(message = "URL belongs to a blocked domain")
     private String originalUrl;
 
-    @Pattern(regexp = "^[a-zA-Z0-9]{4,10}$", message = "Short code must be 4-10 characters long and can only contain letters, numbers, underscores, and hyphens")
-    private  String shortCode;
+//    @Pattern(regexp = "^[a-zA-Z0-9]{4,10}$", message = "Short code must be 4-10 characters long and can only contain letters, numbers, underscores, and hyphens")
+//    private  String shortCode;
 
     private LocalDate expiryDate;
 }
