@@ -80,8 +80,11 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     Set<RoleType> roles=new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     private List<PasswordResetToken> resetTokens=new ArrayList<>();
+
+//    protected User(){}
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -97,6 +97,7 @@ public class AuthService {
                     .roles(Set.copyOf(user.getRoles()))
                     .build();
             log.info("Login successful for email: {}", loginRequest.getEmail());
+            log.info("Generated JWT token for user: {}",token);
             return loginResponse;
         }
         catch (BadCredentialsException ex){

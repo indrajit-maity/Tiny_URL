@@ -100,4 +100,25 @@ public class GlobalExceptionHandler {
                 .build();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resoponse);
     }
+    @ExceptionHandler(UrlNotFoundException.class)
+    public ResponseEntity<ErrorResoponse> handleUrlNotFoundException(Exception ex){
+        ErrorResoponse resoponse=ErrorResoponse.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND.value())
+                .timestamp(LocalDateTime.now().toLocalDate())
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resoponse);
+    }
+
+    @ExceptionHandler(ShortCodeGenerationException.class)
+    public ResponseEntity<ErrorResoponse> handleShortCodeGenerationException(Exception ex){
+        ErrorResoponse resoponse=ErrorResoponse.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.NO_CONTENT.value())
+                .timestamp(LocalDateTime.now().toLocalDate())
+                .build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(resoponse);
+    }
+
+
 }
