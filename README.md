@@ -1,39 +1,36 @@
-::: {align="center"}
+<div align="center">
+
 # 🔗 URL Shortener
 
 ### Production-Ready URL Shortening Backend Using Spring Boot
 
-*A secure, scalable, and high-performance RESTful backend for creating,
-managing, and redirecting shortened URLs with Redis caching, rate
-limiting, blocklist validation, Base62 encoding, JWT authentication,
-Flyway migrations, and Docker support.*
-:::
+*A secure, scalable, and high-performance RESTful backend for creating, managing, and redirecting shortened URLs with Redis caching, rate limiting, blocklist validation, Base62 encoding, JWT authentication, Flyway migrations, and Docker support.*
 
-::: {align="center"}
+<br>
+
 ![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk&logoColor=white)
-![Spring
-Boot](https://img.shields.io/badge/Spring%20Boot-4.x-brightgreen?style=for-the-badge&logo=springboot&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.x-brightgreen?style=for-the-badge&logo=springboot&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-Build-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+
 ![Redis](https://img.shields.io/badge/Redis-Caching-DC382D?style=for-the-badge&logo=redis&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Flyway](https://img.shields.io/badge/Flyway-Database%20Migration-CC0200?style=for-the-badge)
+![Flyway](https://img.shields.io/badge/Flyway-Migrations-CC0200?style=for-the-badge&logo=flyway&logoColor=white)
 ![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
-:::
 
-```{=html}
-<p align="center">
-```
-`<a href="#-overview">`{=html}Overview`</a>`{=html} •
-`<a href="#-key-features">`{=html}Features`</a>`{=html} •
-`<a href="#-architecture">`{=html}Architecture`</a>`{=html} •
-`<a href="#-installation">`{=html}Installation`</a>`{=html} •
-`<a href="#-api-endpoints">`{=html}API`</a>`{=html} •
-`<a href="#-security">`{=html}Security`</a>`{=html} •
-`<a href="#-docker">`{=html}Docker`</a>`{=html}
-```{=html}
-</p>
-```
+<br>
+
+[Overview](#-overview) •
+[Features](#-key-features) •
+[Architecture](#-architecture) •
+[Installation](#-installation) •
+[API](#-api-endpoints) •
+[Security](#-security) •
+[Docker](#-docker)
+
+</div>
+
+---
 
 ------------------------------------------------------------------------
 
