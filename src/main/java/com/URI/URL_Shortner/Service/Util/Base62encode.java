@@ -9,6 +9,13 @@ public class Base62encode {
     public static  final  String Alphabet="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     public static  final int Base=62;
     public static  String encode(long number){
+
+        if (number<0) {
+            throw new IllegalArgumentException(
+                    "Number cannot be negative"
+            );
+        }
+
         if(number==0){
             return String.valueOf(Alphabet.charAt(0));
         }
