@@ -3,6 +3,7 @@ package com.URI.URL_Shortner.Controller;
 import com.URI.URL_Shortner.Dto.UrlResponseDto;
 import com.URI.URL_Shortner.Entity.User;
 import com.URI.URL_Shortner.Service.UrlService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
