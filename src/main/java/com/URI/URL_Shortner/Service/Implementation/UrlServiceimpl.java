@@ -44,6 +44,13 @@ public class UrlServiceimpl implements UrlService {
     public UserResponseDto createShortUrl(UserRequesDto userRequesDto, User currentuser) {
         String name=currentuser.getUsername();
         String longUrl=userRequesDto.getOriginalUrl();
+        if(userRequesDto.getOriginalUrl()!=null){
+            if(urlRepository.existsByOriginalUrlAndUser(longUrl,currentuser)){
+                Url url=urlRepository.findByOriginalUrlAndUser(longUrl,currentuser);
+                System.out.println("Url already exists for user: "+name+" with longUrl: "+longUrl);
+                return(modelMapper.map(url,UserResponseDto.class));
+            }
+        }
         validNotSelfReference(longUrl);
         Url Entity=Url.builder()
                 .originalUrl(longUrl)
@@ -91,7 +98,7 @@ public class UrlServiceimpl implements UrlService {
     }
 
 
-    private String AutogenerateShortCode(Url url){
+    String AutogenerateShortCode(Url url){
         Url saveUrl=url;
         long CounterValue= saveUrl.getId();
         long finalNumber=CounterValue+urlShortenerConfig.Id_Offset;

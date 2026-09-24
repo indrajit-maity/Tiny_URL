@@ -67,4 +67,7 @@ public class Url {
     @Builder.Default
     private  Long version=0L; //optimistic Locking
 
+    public Url(String url) {
+        this.originalUrl = url;
+    }
 }

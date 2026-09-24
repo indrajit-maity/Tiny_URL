@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/redirect")
+//@RequestMapping("/redirect")
 @RequiredArgsConstructor
 @Tag(name = "Redirect", description = "Endpoints for URL redirection")
 public class RedirectController {
