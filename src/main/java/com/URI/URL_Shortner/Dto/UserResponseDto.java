@@ -12,9 +12,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class UserResponseDto {
+    private String OriginalUrl;
     private  String shortUrl;
     private int Count;
     private LocalDate createdAt;
     private LocalDate expiryDate;
     private boolean isActive;
+
 }
