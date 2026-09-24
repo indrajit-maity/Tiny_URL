@@ -34,16 +34,4 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.signup(signupRequest));
     }
 
-
-//    @PostMapping("/forgot-password")
-//    public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest){
-//        log.info("Forgot password request received for email: {}", forgotPasswordRequest.getEmail());
-//        try{
-//            PasswordResetResponse response= OtpService.createPasswordResetRequest(forgotPasswordRequest);
-//        }
-//        catch (Exception ex){
-//
-//        }
-//
-//    }
 }
