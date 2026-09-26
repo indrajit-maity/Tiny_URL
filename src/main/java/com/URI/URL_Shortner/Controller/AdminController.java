@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/admin/blocklist")
+@RequestMapping("/api/admin/blocklist")
 @RequiredArgsConstructor
 @Tag(name = "Admin Blocklist", description = "Endpoints for managing the blocklist")
 public class AdminController {

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/urls")
+@RequestMapping("/api/urls")
 @Tag(name = "URL Shortener", description = "Endpoints for URL shortening and management")
 public class UrlController {
 
