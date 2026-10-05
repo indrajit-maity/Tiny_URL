@@ -58,7 +58,8 @@ public class AuthService {
                             .password(passwordEncoder.encode(signupRequest.getPassword()))
                             .providerId(null)
                             .authproviderType(AuthproviderType.EMAIL)
-                            .roles(Set.of(signupRequest.getRoles().toArray(new RoleType[0])))
+//                            .roles(Set.of(signupRequest.getRoles().toArray(new RoleType[0])))
+                            .roles(Set.of(RoleType.USER))
                             .createdDate(LocalDateTime.now())
                             .build()
             );
